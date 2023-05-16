@@ -1,6 +1,6 @@
-import Errobase from './ErroBase.js';
+import ErroBase from './ErroBase.js';
 
-class ResultNull extends Errobase {
+class ResultNull extends ErroBase {
   constructor (message = 'Página não encontrada.') {
     super(message, 404);
   }

@@ -1,4 +1,4 @@
-class Errobase extends Error {
+class ErroBase extends Error {
   constructor (
     message = 'Erro interno do servidor',
     status = 500
@@ -16,4 +16,4 @@ class Errobase extends Error {
   }
 }
 
-export default Errobase;
+export default ErroBase;

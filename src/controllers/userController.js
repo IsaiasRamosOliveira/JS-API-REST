@@ -5,14 +5,9 @@ import {
 class UserController {
   static getAllUser = async (req, res, next) => {
     try {
-      const user = await User.find();
-      if (user !== null) {
-        res.json(user);
-      } else {
-        res.status(404).send({
-          message: 'Não encontramos o usuário.'
-        });
-      }
+      const searchUser = User.find();
+      req.result = searchUser;
+      next();
     } catch (err) {
       next(err);
     }

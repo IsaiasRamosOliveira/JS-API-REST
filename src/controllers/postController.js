@@ -4,16 +4,9 @@ import { Post, User } from '../models/index.js';
 class postController {
   static getAllPost = async (req, res, next) => {
     try {
-      const post = await Post
-        .find()
-        .populate('user');
-      if (post !== null) {
-        res.status(200).json(post);
-      } else {
-        res.status(404).send({
-          message: 'Não encontramos nenhum post.'
-        });
-      }
+      const searchPosts = Post.find();
+      req.result = searchPosts;
+      next();
     } catch (err) {
       next(err);
     }
@@ -86,11 +79,12 @@ class postController {
       }
 
       if (search !== null) {
-        const post = await Post
+        const result = req.result;
+        const response = result
           .find(search)
           .populate('user');
-        if (post !== null) {
-          res.status(200).json(post);
+        if (response !== null) {
+          res.status(200).json(response);
         } else {
           next(new ResultNull('Não encontramos nenhum post.'));
         }

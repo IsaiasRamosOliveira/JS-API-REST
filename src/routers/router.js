@@ -1,6 +1,7 @@
 import express from 'express';
 import postController from '../controllers/postController.js';
 import userController from '../controllers/userController.js';
+import pages from '../middlewares/pages.js';
 
 const route = express.Router();
 
@@ -9,14 +10,14 @@ route.get('/', (req, res) => {
 });
 
 route
-  .get('/posts', postController.getAllPost)
+  .get('/posts', postController.getAllPost, pages)
   .get('/posts/search', postController.getPostPerFilter)
   .get('/posts/:id', postController.getOnePost)
   .post('/posts', postController.addPost)
   .put('/posts/:id', postController.updatePost)
   .delete('/posts/:id', postController.deletePost)
 
-  .get('/users', userController.getAllUser)
+  .get('/users', userController.getAllUser, pages)
   .get('/users/:id', userController.getOneUser)
   .post('/users', userController.addUser)
   .put('/users/:id', userController.updateUser)
