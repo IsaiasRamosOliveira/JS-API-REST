@@ -10,7 +10,7 @@ route.get('/', (req, res) => {
 
 route
   .get('/posts', postController.getAllPost)
-  .get('/posts/search', postController.getPostPerTitle)
+  .get('/posts/search', postController.getPostPerFilter)
   .get('/posts/:id', postController.getOnePost)
   .post('/posts', postController.addPost)
   .put('/posts/:id', postController.updatePost)

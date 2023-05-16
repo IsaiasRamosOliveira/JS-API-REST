@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-  name: { type: String }
+  name: {
+    type: String,
+    required: [true, 'O nome do usuário é obrigatório.']
+  }
 }, {
   versionKey: false
 });

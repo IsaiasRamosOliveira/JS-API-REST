@@ -1,30 +1,53 @@
-import User from '../models/User.js';
+import {
+  User
+} from '../models/index.js';
 
 class UserController {
-  static getAllUser = async (req, res) => {
-    const user = await User.find();
-    res.json(user);
+  static getAllUser = async (req, res, next) => {
+    try {
+      const user = await User.find();
+      if (user !== null) {
+        res.json(user);
+      } else {
+        res.status(404).send({
+          message: 'Não encontramos o usuário.'
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
   };
 
-  static getOneUser = async (req, res) => {
+  static getOneUser = async (req, res, next) => {
     try {
       const {
         id
       } = req.params;
       const user = await User.findById(id);
-      res.json(user);
+      if (user !== null) {
+        res.json(user);
+      } else {
+        res.status(404).send({
+          message: 'Não encontramos o usuário.'
+        });
+      }
     } catch (err) {
-      res.send('Não encontramos o User.');
+      next(err);
     }
   };
 
-  static addUser = (req, res) => {
-    const user = new User(req.body);
-    user.save(user.toJSON());
-    res.status(201).send('User adicionado');
+  static addUser = async (req, res, next) => {
+    try {
+      const user = new User(req.body);
+      // eslint-disable-next-line no-unused-vars
+      const response = await user.save(user.toJSON());
+      res.status(201).send('Usuário adicionado com sucesso.');
+    } catch (err) {
+      next(err);
+    }
   };
 
-  static updateUser = async (req, res) => {
+  static updateUser = async (req, res, next) => {
     try {
       const {
         id
@@ -33,13 +56,13 @@ class UserController {
       const user = await User.findByIdAndUpdate(id, {
         $set: req.body
       });
-      res.send('User atualizado com sucesso.');
+      res.send('Dados do usuário atualizado com sucesso.');
     } catch (err) {
-      res.send('Erro ao atualizar');
+      next(err);
     }
   };
 
-  static deleteUser = async (req, res) => {
+  static deleteUser = async (req, res, next) => {
     try {
       const {
         id
@@ -47,9 +70,11 @@ class UserController {
 
       // eslint-disable-next-line no-unused-vars
       const user = await User.findByIdAndDelete(id);
-      res.send('User apagado com sucesso.');
+      res.status(200).send({
+        message: 'Usuário apagado com sucesso.'
+      });
     } catch (err) {
-      res.send('Erro ao apagar');
+      next(err);
     }
   };
 }

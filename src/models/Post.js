@@ -1,12 +1,17 @@
 import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema({
-  id: { type: String },
-  title: { type: String, required: false },
+  id: {
+    type: String
+  },
+  title: {
+    type: String,
+    required: [true, 'O título é obrigatório.']
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
-    required: true
+    required: [true, 'O ID do usuário é obrigatório.']
   }
 });
 
