@@ -2,7 +2,9 @@ import Post from '../models/Post.js';
 
 class postController {
   static getAllPost = async (req, res) => {
-    const post = await Post.find();
+    const post = await Post
+      .find()
+      .populate('user');
     res.json(post);
   };
 
@@ -45,6 +47,13 @@ class postController {
     } catch (err) {
       res.send('Erro ao apagar');
     }
+  };
+
+  static getPostPerTitle = async (req, res) => {
+    const title = req.query.title;
+    // eslint-disable-next-line no-unused-vars, n/handle-callback-err
+    const post = await Post.find({ title });
+    res.send(post);
   };
 }
 
